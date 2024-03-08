@@ -1,38 +1,10 @@
-#!/bin/bash
+#!/usr/bin/env bash
+# World wide web
 
-# Function to query DNS and display information about the subdomain
-query_dns() {
-    local domain="$1"
-    local subdomain="$2"
-    local record
-
-    # Perform the DNS query using dig
-    record=$(dig +short "$subdomain.$domain" A)
-
-    if [[ -z "$record" ]]; then
-        echo "No A record found for $subdomain.$domain"
-    else
-        echo "The subdomain $subdomain is a A record and points to $record"
-    fi
-}
-
-# Check if at least the domain parameter is provided
-if [[ -z "$1" ]]; then
-    echo "Usage: $0 domain [subdomain]"
-    exit 1
-fi
-
-domain="$1"
-
-# If only the domain parameter is provided
-if [[ -z "$2" ]]; then
-    # Define an array of default subdomains to check
-    declare -a subdomains=("www" "lb-01" "web-01" "web-02")
-    for subdomain in "${subdomains[@]}"; do
-        query_dns "$domain" "$subdomain"
-    done
+if [ $# -eq 1 ]; then
+    dom="www.$1 lb-01.$1 web-01.$1 web-02.$1"
 else
-    # If both domain and subdomain parameters are provided
-    subdomain="$2"
-    query_dns "$domain" "$subdomain"
+    dom="$2.$1"
 fi
+
+dig $dom | awk '/ANSWER SECTION:/{getline; split($1,b,"."); print "The subdomain", b[1], "is a", $4, "record and points to", $5}'
