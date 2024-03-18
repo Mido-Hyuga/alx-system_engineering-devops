@@ -1,0 +1,4 @@
+sudo sysctl -w net.ipv4.ip_forward=1
+sudo iptables -t nat -A PREROUTING -p tcp --dport 8080 -j DNAT --to-destination :80
+sudo iptables-save | sudo tee /etc/iptables/rules.v4
+sudo iptables -t nat -L
