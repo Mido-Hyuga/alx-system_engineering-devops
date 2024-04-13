@@ -30,7 +30,7 @@ The database downtime was attributed to a runaway query consuming excessive syst
 2. Enhance monitoring capabilities to promptly identify and respond to abnormal resource consumption.
 3. Conduct regular performance audits and stress tests to assess database scalability and resilience.
 <p align="center">
-<img src="azert.png" width=100% height=100% />
+<img src="azert.png" width=30% height=30% />
 </p>
 
 **Lessons Learned:**
